@@ -14,7 +14,12 @@
 {% block content  %}
 
         <h1 class="mb-5">Post with '{{tag.title|title}}' tag:</h1>
-
+        <div class="container mb-5">
+            <button type="submit" class="btn btn-primary"><a href="{{tag.get_update_url}}" style="color: aliceblue; text-decoration: none;">Update Tag </a>
+            </button>
+            <button type="submit" class="btn btn-primary"><a href="{% url 'tag_delete_url' slug=tag.slug  %}" style="color: aliceblue; text-decoration: none;" >Delete Tag </a>
+            </button>
+        </div>
                 {% for post in tag.posts.all  %}
                     {% include 'blog/includes/post_card_template.html'  %}
                 {% endfor %}

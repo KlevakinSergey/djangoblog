@@ -15,5 +15,10 @@
     <p >{{post.body}}</p>
     <img src="{{post.image.url}} " width="700">
     <p>{{post.date_pub}}</p>
+    <button type="button" class="btn btn-primary " ><a href="{{post.get_update_url}}" style="color: aliceblue; text-decoration: none;">Update Post </a>
+    </button>
+    <button type="button" class="btn btn-danger " ><a href="{{post.get_delete_url}}" style="color: aliceblue; text-decoration: none;">Delete Post </a>
+    </button>
+    
 
 {% endblock %}

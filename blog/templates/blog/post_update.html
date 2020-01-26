@@ -3,13 +3,13 @@
 
 {% block title  %}
 
-       Create post - {{blog.super}}
+       Edit post - {{blog.super}}
 
 {% endblock   %}
 
 
 {% block content %}
-    <form action="{% url 'post_create_url'  %}" method="POST" enctype="multipart/form-data" >
+    <form action="{{post.get_update_url}}" method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
         {%  for field in form %}
             <div class="form-group">
@@ -22,10 +22,14 @@
                 {{field}}
             </div>
         {% endfor %}
-        <button type="submit" name="button">Create Post</button>
+        <button type="submit" name="button">Update Post</button>
 
     </form>
       
 
 {% endblock   %}
+
+
+
+
 
