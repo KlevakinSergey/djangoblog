@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.views.generic.base import View
-from .models import Post, Tag
+from .models import Post, Tag, Comment
 from .utils import ObjectDetailMixin, ObjectCreateMixin, ObjectUpdateMixin, ObjectDeleteMixin
-from .forms import TagForm, PostForm
+from .forms import TagForm, PostForm, CommentForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -55,7 +55,22 @@ class PostDetail(View):
     # template = 'blog/post_detail.html'
     def get(self, request, slug):
         post = get_object_or_404(Post, slug__iexact= slug )
-        return render(request, 'blog/post_detail.html', {'post': post}) 
+        comments = post.comments.filter(active=True)
+        comment_form = CommentForm()
+        return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form}) 
+    
+    def post(self, request, slug):
+        comment_form = CommentForm(data=request.POST)
+        post = get_object_or_404(Post, slug__iexact= slug )
+        comments = post.comments.filter(active=True)
+
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.post = post
+            new_comment.save()
+        else:
+            comment_form = CommentForm()
+        return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'new_comment': new_comment, 'comment_form': comment_form}) 
 
 class TagDetail(View):
     # model = Tag

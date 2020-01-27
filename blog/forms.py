@@ -1,6 +1,7 @@
 from django import forms
-from blog.models import Tag, Post
+from blog.models import Tag, Post, Comment
 from django.core.exceptions import ValidationError
+
 
 
 
@@ -47,3 +48,9 @@ class PostForm(forms.ModelForm):
         if new_slug == 'create':
             raise ValidationError('Slug may not be CREATE')
         return new_slug    
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'body')
